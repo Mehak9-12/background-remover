@@ -44,10 +44,13 @@ removeBtn.addEventListener('click', async () => {
   formData.append('file', file);
 
   try {
-    const response = await fetch('http://localhost:5000/remove-bg', {
-      method: 'POST',
-      body: formData,
-    });
+    const response = await fetch(
+      'https://background-remover-gdc9.onrender.com/process-image',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    );
 
     if (!response.ok) throw new Error();
 
