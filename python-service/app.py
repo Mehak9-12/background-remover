@@ -13,7 +13,7 @@ load_dotenv()
 app = FastAPI()
 
 # Initialize session
-session = new_session("u2net")
+session = new_session("u2netp")
 
 origins = [
     "https://mehak9-12.github.io", 

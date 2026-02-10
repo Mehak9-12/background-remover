@@ -1,5 +1,6 @@
 fastapi
 uvicorn
-rembg
 python-multipart
+rembg[cpu]
 python-dotenv
+onnxruntime
