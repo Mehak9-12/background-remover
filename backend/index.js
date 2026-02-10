@@ -4,30 +4,25 @@ import multer from 'multer';
 import axios from 'axios';
 import FormData from 'form-data';
 import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// serve frontend
-app.use(express.static(path.join(__dirname, '../frontend')));
-
-// ✅ FIX: serve index.html on root
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
+app.use(
+  cors({
+    origin: 'https://mehak9-12.github.io',
+  }),
+);
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// ✅ FIX: define env variable
-const PYTHON_SERVICE_URL = process.env.PYTHON_SERVICE_URL;
+const PYTHON_SERVICE_URL =
+  process.env.PYTHON_SERVICE_URL || 'http://127.0.0.1:8000/process-image';
+
+// Health check route for Render
+app.get('/health', (req, res) => res.send('Backend is healthy'));
 
 app.post('/remove-bg', upload.single('file'), async (req, res) => {
   try {
@@ -45,9 +40,14 @@ app.post('/remove-bg', upload.single('file'), async (req, res) => {
     res.set('Content-Type', 'image/png');
     res.send(response.data);
   } catch (err) {
+    console.error('Error details:', err.message); // Added for easier debugging in Render logs
     res.status(500).json({ error: 'Failed to process image' });
   }
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Express running on port ${PORT}`));
+
+// 2. CHANGE: Listen on '0.0.0.0' (Required for Render)
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Express running on port ${PORT}`);
+});
