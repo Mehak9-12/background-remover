@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Background Remover</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Notification Popup -->
+    <div id="toast" class="toast"></div>
+
+    <div class="container">
+      <h1>Background Remover</h1>
+
+      <div class="upload-section">
+        <input type="file" id="imageInput" accept="image/*" />
+
+        <div class="btn-group">
+          <button id="removeBtn">Remove Background</button>
+          <button id="clearBtn">Clear</button>
+        </div>
+      </div>
+
+      <div class="result-container" id="resultContainer">
+        <span id="placeholderText">No image selected</span>
+        <img id="resultImage" src="" alt="" />
+      </div>
+
+      <a id="downloadLink" href="#">Download Result</a>
+    </div>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
